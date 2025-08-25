@@ -26,6 +26,14 @@ MOre content
 
 and more content
 
+Adding some code:
+
+#+begin_src elixir
+def my_func(arg) do
+  IO.puts(arg)
+end
+#+end_src
+
 and more
 
 #+CAPTION: A beautiful image

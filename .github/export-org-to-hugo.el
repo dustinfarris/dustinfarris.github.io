@@ -1,4 +1,4 @@
-;;; export-org-to-hugo.el --- Export Org files to Hugo-compatible Markdown
+;;; export-org-to-hugo.el --- Export Org files to Hugo-compatible Markdown -*- lexical-binding: t; -*-
 
 ;; Set a temporary emacs directory for CI
 (setq user-emacs-directory (expand-file-name ".emacs.d/" default-directory))
@@ -30,4 +30,4 @@
 (find-file "content-org/blog.org")
 (org-hugo-export-wim-to-md :all-subtrees)
 
-(message "Export complete!") export-org-to-hugo.el --- Description -*- lexical-binding: t; -*-
+(message "Export complete!")
