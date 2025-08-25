@@ -39,6 +39,15 @@ jobs:
         with:
           version: '30.2'
 
+      - name: Cache straight.el packages
+        uses: actions/cache@v4
+        id: straight-cache
+        with:
+          path: .emacs.d
+          key: ${{ runner.os }}-straight-${{ hashFiles('.github/export-org-to-hugo.el') }}
+          restore-keys: |
+            ${{ runner.os }}-straight-
+
       - name: Export Org to Markdown
         run: |
           emacs --batch --load .github/export-org-to-hugo.el
