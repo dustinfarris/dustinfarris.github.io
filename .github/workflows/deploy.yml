@@ -1,0 +1,111 @@
+name: Deploy Hugo site to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0  # Needed for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'  # Will use v0.148+ with latest features
+          extended: true
+
+      - name: Setup Emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: '29.2'
+
+      - name: Install ox-hugo
+        run: |
+          emacs --batch --eval "(progn
+            (require 'package)
+            (add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\"))
+            (package-initialize)
+            (package-refresh-contents)
+            (package-install 'ox-hugo))"
+
+      - name: Export Org to Markdown
+        run: |
+          emacs --batch --load ~/.emacs.d/elpa/ox-hugo*/ox-hugo.el \
+            --eval "(progn
+              (setq org-hugo-base-dir \"./\")
+              (setq org-hugo-section \"posts\")
+              (setq make-backup-files nil)
+              (find-file \"content-org/blog.org\")
+              (org-hugo-export-wim-to-md :all-subtrees))"
+
+      - name: Copy images to content directory
+        run: |
+          # Copy images to their respective page bundles
+          for dir in content-org/images/*/; do
+            if [ -d "$dir" ]; then
+              bundle_name=$(basename "$dir")
+              target_dir="content/posts/$bundle_name"
+              if [ -d "$target_dir" ]; then
+                cp -r "$dir"* "$target_dir/"
+              fi
+            fi
+          done
+
+      - name: Setup Node.js (for PostCSS/Tailwind if needed)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+        if: hashFiles('**/package.json') != ''
+
+      - name: Install Node dependencies
+        run: npm ci
+        if: hashFiles('**/package.json') != ''
+
+      - name: Build with Hugo
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+          NODE_ENV: production
+        run: |
+          hugo \
+            --gc \
+            --minify \
+            --baseURL "https://dustinfarris.github.io/"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

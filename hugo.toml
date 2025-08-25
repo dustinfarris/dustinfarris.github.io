@@ -1,0 +1,135 @@
+baseURL = "https://dustinfarris.github.io/"
+languageCode = "en-us"
+title = "Your Blog Title"
+theme = "ananke"  # or "PaperMod"
+
+# Enable Git info for accurate last modified dates
+enableGitInfo = true
+
+# Enable inline shortcodes (v0.52+)
+enableInlineShortcodes = true
+
+# For better SEO and content discovery
+enableRobotsTXT = true
+sitemap.changefreq = "weekly"
+sitemap.priority = 0.5
+
+[params]
+  description = "Your blog description"
+  author = "Your Name"
+  # For Ananke theme
+  custom_css = ["css/custom.css"]
+
+  # For PaperMod theme (if using)
+  # defaultTheme = "auto"
+  # ShowReadingTime = true
+  # ShowShareButtons = true
+  # ShowCodeCopyButtons = true
+
+[markup]
+  defaultMarkdownHandler = "goldmark"
+
+  [markup.goldmark]
+    # Enable new features (v0.148+)
+    duplicateResourceFiles = false
+
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      linkifyProtocol = "https"
+      strikethrough = true
+      table = true
+      taskList = true
+
+      # Math rendering support (v0.132+)
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [["$$", "$$"]]
+          inline = [["$", "$"]]
+
+      # Typography improvements (v0.126+)
+      [markup.goldmark.extensions.extras]
+        delete.enable = true
+        insert.enable = true
+        mark.enable = true
+        subscript.enable = true
+        superscript.enable = true
+
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      autoHeadingIDType = "github"
+      # Enable attributes for better control
+      [markup.goldmark.parser.attribute]
+        block = true
+        title = true
+      # Don't wrap standalone images in <p> tags
+      wrapStandAloneImageWithinParagraph = false
+
+    [markup.goldmark.renderer]
+      unsafe = true  # Allow raw HTML
+
+    # Embedded render hooks (v0.147+)
+    [markup.goldmark.renderHooks]
+      [markup.goldmark.renderHooks.image]
+        useEmbedded = "auto"  # Better image handling for page bundles
+      [markup.goldmark.renderHooks.link]
+        useEmbedded = "auto"  # Better link resolution
+
+  # Syntax highlighting configuration
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ""
+    hl_inline = false
+    lineAnchors = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = false  # Use CSS classes for theming
+    noHl = false
+    style = "monokai"
+    tabWidth = 4
+
+# Configure permalinks for page bundles
+[permalinks]
+  posts = "/:year/:month/:slug/"
+
+# Menu configuration
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 2
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 3
+
+# Output formats (for RSS, etc.)
+[outputFormats]
+  [outputFormats.RSS]
+    mediaType = "application/rss+xml"
+    baseName = "feed"
+
+# Security policy for remote resources (if using content adapters)
+[security]
+  enableInlineShortcodes = false
+  [security.exec]
+    allow = ['^(dart-)?sass(-embedded)?$', '^go$', '^npx$', '^postcss$', '^git$']
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$']
+  [security.http]
+    methods = ['(?i)GET|POST']
+    urls = ['.*']
+
+# Module configuration for themes as Hugo Modules (optional, advanced)
+# [module]
+#   [[module.imports]]
+#     path = "github.com/theNewDynamic/gohugo-theme-ananke"

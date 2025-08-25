@@ -1,0 +1,53 @@
+#+AUTHOR: Your Name
+#+HUGO_BASE_DIR: ../
+#+HUGO_SECTION: posts
+#+OPTIONS: author:nil
+
+* Posts
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: posts
+:END:
+
+** DONE My First Post :tag1:tag2:
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_BUNDLE: my-first-post
+:EXPORT_DATE: 2024-01-15
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "featured.jpg"
+:END:
+
+This is my first blog post using ox-hugo!
+
+*** Introduction
+Here's some content...
+
+and more content.
+MOre content
+
+and more content
+
+and more
+
+#+CAPTION: A beautiful image
+#+ATTR_HTML: :width 800
+[[file:images/my-first-post/example.jpg]]
+
+** TODO Draft Post :draft:
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_BUNDLE: draft-post
+:EXPORT_HUGO_DRAFT: t
+:END:
+
+This post is still a draft.
+
+* Drafts
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: drafts
+:END:
+
+* Footnotes
+* COMMENT Local Variables :ARCHIVE:
+# Local Variables:
+# eval: (org-hugo-auto-export-mode)
+# End:
