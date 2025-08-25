@@ -46,7 +46,8 @@ jobs:
             (add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\"))
             (package-initialize)
             (package-refresh-contents)
-            (package-install 'ox-hugo))"
+            (package-install 'ox-hugo)
+            (package-activate-all))"
 
       - name: Export Org to Markdown
         run: |
