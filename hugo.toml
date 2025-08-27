@@ -1,7 +1,7 @@
 baseURL = "https://dustinfarris.github.io/"
 languageCode = "en-us"
 title = "Your Blog Title"
-theme = "ananke"  # or "PaperMod"
+theme = "elementary"  # or "PaperMod"
 
 # Enable Git info for accurate last modified dates
 enableGitInfo = true
