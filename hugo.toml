@@ -1,7 +1,7 @@
-baseURL = "https://dustinfarris.github.io/"
+baseURL = "https://dustinfarris.com/"
 languageCode = "en-us"
-title = "Your Blog Title"
-theme = "elementary"  # or "PaperMod"
+title = "Dustin Farris"
+theme = "elementary"
 
 # Enable Git info for accurate last modified dates
 enableGitInfo = true
@@ -13,18 +13,6 @@ enableInlineShortcodes = true
 enableRobotsTXT = true
 sitemap.changefreq = "weekly"
 sitemap.priority = 0.5
-
-[params]
-  description = "Your blog description"
-  author = "Your Name"
-  # For Ananke theme
-  custom_css = ["css/custom.css"]
-
-  # For PaperMod theme (if using)
-  # defaultTheme = "auto"
-  # ShowReadingTime = true
-  # ShowShareButtons = true
-  # ShowCodeCopyButtons = true
 
 [markup]
   defaultMarkdownHandler = "goldmark"
